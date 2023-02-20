@@ -1,0 +1,3 @@
+Testando em casos de numeros primos.
+Trivial:  MDC(45179,44279) = 1, gerou 44278 loops até alcançar o seu resultado.
+Euclides: MDC(45179,44279) = 1, gerou apenas 8 loops.
