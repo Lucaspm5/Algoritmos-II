@@ -3,7 +3,7 @@
 
 int cmp(const void *a, const void *b)
 {
-    return (*(int*)a - *(int*)b);//Ordena o vetor de lotes, dereferencia e retorna a subtraçao;
+    return (*(int*)a - *(int*)b);
 }
 //////////////////////////////////////////////////////
 int buscaBinaria(int *vetor, int n, int num)
@@ -22,7 +22,7 @@ int buscaBinaria(int *vetor, int n, int num)
             fim = meio - 1;
         }
     }
-    return -1;/*Se o valor num não é encontrado no vetor, a função retorna -1.*/
+    return -1;
 }
 //////////////////////////////////////////////////////
 int main(void)
@@ -34,7 +34,7 @@ int main(void)
         n = 0;
         for (i = 0; i < 10001; i++)
         {
-            lotes[i] = 0;  // inicializa todas os lotes com zero
+            lotes[i] = 0;
         }
 
         for (i = 0; i < caixas; i++)
@@ -42,17 +42,17 @@ int main(void)
             scanf("%d %d", &x, &y);
             for (j = x; j <= y; j++)
             {
-                lotes[n++] = j;// ou pode se usar n++ em baixo do J, assim n++
+                lotes[n++] = j;
             }
         }
 
-        qsort(lotes, n, sizeof(int), cmp);//ordena em ordem crescente, o sizeof é utilizado para a funcao qsort para indicar o tamanho de bytes de um elemento da array
+        qsort(lotes, n, sizeof(int), cmp);
 
-        scanf("%d", &num);//numero que sera buscado
+        scanf("%d", &num);
 
         if (buscaBinaria(lotes, n, num) == -1)
         {
-            printf("%d not found\n", num);// se retornar -1 nao foi encontrado e printara isto
+            printf("%d not found\n", num);
         } else {
             posicao_inicial = 0;
             for (k = 0; k < n && lotes[k] <= num; k++)
@@ -68,7 +68,7 @@ int main(void)
             posicao_final = posicao_inicial;
             while (posicao_final < n - 1 && lotes[posicao_final + 1] == num)
             {
-                posicao_final++;// conta os lotes ocupadas
+                posicao_final++;
             }
             printf("%d found from %d to %d\n", num, posicao_inicial, posicao_final);
         }
