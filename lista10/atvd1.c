@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define max 6553
+#define max 6552
 
 typedef struct
 {
