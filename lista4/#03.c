@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct carta
+typedef struct
 {
     int naipe, valor;
-};
+}carta;
 
-struct carta deck[52];
+carta deck[52];
 
-char /***/naipe[][10] = {"Paus", "Ouros", "Copas", "Espadas"};
-char /***/numero[][10] = {"As", "Dois", "Tres", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez", "Valete", "Dama", "Rei"};
+char naipe[][10] = {"Paus", "Ouros", "Copas", "Espadas"};
+char numero[][10] = {"As", "Dois", "Tres", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez", "Valete", "Dama", "Rei"};
 
 void preenche()
 {
