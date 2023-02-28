@@ -2,15 +2,15 @@
 
 #define TAM 5
 
-struct aluno
+typedef struct
 {
     char nome[15];
     float peso, altura, Ira;
-};
+}aluno;
 
 int main(void)
 {
-    struct aluno c[TAM];
+    aluno c[TAM];
     int sup1, sup2, sup3;
     float Mpeso, Maltura, Mira, maxPeso = 0, maxAlt = 0, maxIra = 0;
     printf("\t-CADASTRO DE ALUNOS-\n\n");
