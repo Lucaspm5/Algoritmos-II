@@ -1,10 +1,10 @@
 #include<stdio.h>
 #include<math.h>
 
-struct distancia
+typedef struct
 {
     float x1,x2,y1,y2;
-};
+}distancia;
 
 int main()
 {
@@ -14,7 +14,7 @@ int main()
     float total;
 
 
-    struct distancia dois_pontos;
+    distancia dois_pontos;
     fflush(stdin);
     scanf("%f %f",&dois_pontos.x1,&dois_pontos.x2);
     fflush(stdin);
@@ -22,11 +22,14 @@ int main()
 
     subx1=dois_pontos.x1 - dois_pontos.y1;
     suby2=dois_pontos.x2 - dois_pontos.y2;
+    
     mutx1=subx1*subx1;
     muty2=suby2*suby2;
+    
     soma=mutx1+muty2;
     res=sqrt(soma);
     total=res;
+    
     printf("%.4f",total);
     return 0;
 }
