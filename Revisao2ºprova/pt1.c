@@ -13,7 +13,6 @@ typedef struct {
 
 typedef struct {
     Celular cel[MAX];
-    int n;
 } Gerencia;
 
 Gerencia tab;
@@ -89,7 +88,7 @@ void removerVarios(){
     }
 }
 
-void visualizarTab() {
+void visualiza() {
     FILE *arquivo = fopen("celular.txt", "r");
     if (arquivo == NULL) {
         printf("Nao foi possivel abrir o arquivo.\n");
@@ -185,7 +184,7 @@ int main()
                 removerVarios();
                 break;
             case 4:
-                visualizarTab();
+                visualiza();
                 break;
             case 5:
                 printf("Informe o codigo do celular que deseja visualizar: ");
