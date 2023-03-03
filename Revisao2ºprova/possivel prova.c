@@ -137,7 +137,7 @@ void menu()
 {
     printf("1 - Cadastrar\n2 - Visualizar\n3 - Visualizar um registro\n4 - Ordenar por preço\n5 - Ordenar por codigo\n6 - Ordenar por caracter\n7 - Remover um cadastro\n8 - Remover varios\n");
     printf("9 - Buscar por codigo\n10 - Buscar variosn\n11 - Alterar\n12 - Alterar varios\n13- Sair");
-}   
+}
 /////////////////////////////////////////////
 void salvarNodisco(Produto* produto, int* total_cadastrados)
 {
@@ -146,55 +146,62 @@ void salvarNodisco(Produto* produto, int* total_cadastrados)
         printf("Erro ao abrir o arquivo para escrita.\n");
         return;
     }
-    
+
+    // Adiciona o produto no fim do arquivo
     fseek(arq, 0, SEEK_END);
     fwrite(produto, sizeof(Produto), 1, arq);
-    
+
     (*total_cadastrados)++;
+    // Atualiza o total cadastrado no início do arquivo
     fseek(arq, 0, SEEK_SET);
     fwrite(total_cadastrados, sizeof(int), 1, arq);
-    
+
     fclose(arq);
 }
 /////////////////////////////////////////////
-void lerDodisco(Produto* produtos, int* 
-
-
-total_cadastrados)
+void lerDodisco(Produto* produtos, int* total_cadastrados)
 {
     FILE * arq = fopen("dados.bin", "rb");
 
-	if(arq != NULL)
-	{
-		int indice = 0;
-		while(1)
-		{
-			Produto p;
+    if(arq != NULL)
+    {
+        int indice = 0;
+        int total_antigo = 0;
+        fread(&total_antigo, sizeof(int), 1, arq); // Lê o total cadastrado anteriormente
 
-			size_t r = fread(&p, sizeof(Produto), 1, arq);
+        while(1)
+        {
+            Produto p;
 
-			if(r < 1)
-				break;
-			else
-				produtos[indice++] = p;
-		}
+            size_t r = fread(&p, sizeof(Produto), 1, arq);
 
-		*total_cadastrados = indice;
-	}
-	
+            if(r < 1)
+                break;
+            else
+                // Adiciona o produto apenas se o seu código é maior que o total anterior,
+                // indicando que é um produto novo ou modificado
+                if (p.codigo >= total_antigo) {
+                    produtos[indice++] = p;
+                }
+        }
+
+        *total_cadastrados = indice;
+    }
+
+    fclose(arq);
 }
 /////////////////////////////////////////////
 void cadastrar(Produto *produtos, int* total_cadastrados)
 {
     if ((*total_cadastrados) < 1000)
     {
-	
+
         Produto produto;
 
         int i = *total_cadastrados;
 
         printf("\ncódigo: "); scanf("%d", &produto.codigo);
-        
+
         int index = auxiliar(produtos, produto.codigo, total_cadastrados);
         if (index != -1)
         {
@@ -335,20 +342,32 @@ void ordenarCodigo(Produto* produtos, int* total_cadastrados)
 }
 /////////////////////////////////////////////
 void atualizarArquivo(Produto* produtos, int total_cadastrados) {
-    FILE* arq = fopen("dados.bin", "rb+");
+    FILE* arq = fopen("dados.bin", "r+b");
+
     if (arq == NULL) {
-        printf("Erro ao abrir o arquivo para escrita.\n");
+        printf("Erro ao abrir arquivo!\n");
         return;
     }
 
-    fwrite(&total_cadastrados, sizeof(int), 1, arq);
-    fwrite(produtos, sizeof(Produto), total_cadastrados, arq);
+    Produto p;
+    int count = 0;
+
+    while (fread(&p, sizeof(Produto), 1, arq) == 1) {
+        for (int i = 0; i < total_cadastrados; i++) {
+            if (produtos[i].codigo == p.codigo) {
+                fseek(arq, count * sizeof(Produto), SEEK_SET);
+                fwrite(&produtos[i], sizeof(Produto), 1, arq);
+                break;
+            }
+        }
+        count++;
+    }
 
     fclose(arq);
 }
 /////////////////////////////////////////////
 void remover(Produto* produtos, int* total_cadastrados, int codigo) 
-{    
+{
     int index = auxiliar(produtos, codigo, total_cadastrados);
 
     if (index == -1) {
@@ -390,7 +409,7 @@ void buscarMultiplos(Produto* produtos, int total_cadastrados) {
     float preco_maximo;
     printf("Informe o preco maximo dos produtos a serem buscados: ");
     scanf("%f", &preco_maximo);
-    
+
     bool encontrou = false;
     for (int i = 0; i < total_cadastrados; i++) {
         if (produtos[i].preco <= preco_maximo) {
