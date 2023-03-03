@@ -269,7 +269,26 @@ void visualizarUmRegistro(Produto* produtos, int* total_cadastrados)
 /////////////////////////////////////////////
 void ordenar(Produto* produtos, int* total_cadastrados)
 {
-    ordenarSelecao(produtos, total_cadastrados);
+    int i, j, menor;
+    Produto auxp;
+
+    for (i = 0; i < (*total_cadastrados) - 1; i++)
+    {
+        menor = i;
+
+        for(j = i+1; j < (*total_cadastrados); j++)
+        {
+            if(produtos[j].codigo < produtos[menor].codigo)
+                menor = j;
+        }
+
+        if (i != menor)
+        {
+            auxp = produtos[i];
+            produtos[i] = produtos[menor];
+            produtos[menor] = auxp;
+        }
+    }
 
     visualizar(produtos, total_cadastrados);
 }
@@ -277,7 +296,6 @@ void ordenar(Produto* produtos, int* total_cadastrados)
 void ordenarCaracteres(Produto* produtos, int* total_cadastrados)
 {
     int i, j;
-
     Produto auxp;
 
     for (i = 0; i < (*total_cadastrados) - 1; i++)
@@ -298,27 +316,20 @@ void ordenarCaracteres(Produto* produtos, int* total_cadastrados)
 /////////////////////////////////////////////
 void ordenarCodigo(Produto* produtos, int* total_cadastrados)
 {
-    int i, j, menor;
-
+    int i, j;
     Produto auxp;
 
     for (i = 0; i < (*total_cadastrados) - 1; i++)
     {
-        menor = i;
-
-        for(j = (i+1); j < (*total_cadastrados); j++)
+        for (j = 0; j < (*total_cadastrados) - i - 1; j++)
         {
-            if(produtos[j].codigo < produtos[menor].codigo)
-                menor = j;
+            if (produtos[j].codigo > produtos[j+1].codigo)
+            {
+                auxp = produtos[j];
+                produtos[j] = produtos[j+1];
+                produtos[j+1] = auxp;
+            }
         }
-
-        if (i != menor)
-        {
-            auxp = produtos[i];
-            produtos[i] = produtos[menor];
-            produtos[menor] = auxp;
-        }
-
     }
 
     visualizar(produtos, total_cadastrados);
