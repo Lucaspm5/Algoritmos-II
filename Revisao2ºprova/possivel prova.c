@@ -358,8 +358,8 @@ void atualizarArquivo(Produto* produtos, int total_cadastrados) {
     fclose(arq);
 }
 /////////////////////////////////////////////
-void remover(Produto* produtos, int* total_cadastrados, int codigo) 
-{    
+void remover(Produto* produtos, int* total_cadastrados, int codigo)
+{
     int index = auxiliar(produtos, codigo, total_cadastrados);
 
     if (index == -1) {
@@ -392,9 +392,8 @@ void removerVarios(Produto* produtos, int* total_cadastrados)
 
     for (int i = 0; i < qtd_removidos; i++) {
         remover(produtos, total_cadastrados, codigos[i]);
+        atualizarArquivo(produtos, *total_cadastrados);
     }
-
-    atualizarArquivo(produtos, *total_cadastrados);
 }
 /////////////////////////////////////////////
 void buscarMultiplos(Produto* produtos, int total_cadastrados) {
