@@ -325,13 +325,28 @@ void ordenarCodigo(Produto* produtos, int* total_cadastrados)
 }
 /////////////////////////////////////////////
 void atualizarArquivo(Produto* produtos, int total_cadastrados) {
-    FILE* arq = fopen("dados.bin", "wb");
+    FILE* arq = fopen("dados.bin", "rb+"); // abrir o arquivo em modo de leitura e escrita
 
-    fwrite(produtos, sizeof(Produto), total_cadastrados, arq);
+    if (arq == NULL) { // verificar se o arquivo foi aberto corretamente
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
+
+    Produto produto_atual;
+
+    for (int i = 0; i < total_cadastrados; i++) {
+        fseek(arq, i*sizeof(Produto), SEEK_SET); // posicionar o cursor na posição correta do produto no arquivo
+        fread(&produto_atual, sizeof(Produto), 1, arq); // ler o produto atual do arquivo
+
+        if (produto_atual.codigo == produtos[i].codigo) { // verificar se o produto do arquivo corresponde ao produto a ser atualizado
+            fseek(arq, -1*sizeof(Produto), SEEK_CUR); // voltar uma posição para sobrescrever o produto atual
+            fwrite(&produtos[i], sizeof(Produto), 1, arq); // escrever o produto atualizado no arquivo
+        }
+    }
 
     fclose(arq);
 }
-
+/////////////////////////////////////////////
 void remover(Produto* produtos, int* total_cadastrados, int codigo) 
 {    
     int index = auxiliar(produtos, codigo, total_cadastrados);
