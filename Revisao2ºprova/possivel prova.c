@@ -363,40 +363,62 @@ void atualizarArquivo(Produto* produtos, int total_cadastrados) {
 /////////////////////////////////////////////
 void remover(Produto* produtos, int* total_cadastrados, int codigo)
 {
-    int index = auxiliar(produtos, codigo, total_cadastrados);
+    FILE* arq = fopen("dados.bin", "rb+");
 
-    if (index == -1) {
-        printf("Produto não encontrado.\n");
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
         return;
     }
 
-    for (int i = index; i < (*total_cadastrados) - 1; i++) {
-        produtos[i] = produtos[i + 1];
+    Produto produto_atual;
+
+    for (int i = 0; i < (*total_cadastrados); i++) {
+        fseek(arq, i*sizeof(Produto), SEEK_SET);
+        fread(&produto_atual, sizeof(Produto), 1, arq);
+
+        if (produto_atual.codigo == codigo) {
+            Produto vazio = {0, "", 0.0};
+            fseek(arq, i*sizeof(Produto), SEEK_SET);
+            fwrite(&vazio, sizeof(Produto), 1, arq);
+            (*total_cadastrados)--;
+            printf("Produto removido com sucesso!\n");
+            break;
+        }
     }
 
-    (*total_cadastrados)--;
-    printf("Produto removido com sucesso!\n");
+    fclose(arq);
 
     atualizarArquivo(produtos, *total_cadastrados);
 }
-
-void removerVarios(Produto* produtos, int* total_cadastrados) 
+/////////////////////////////////////////////
+void removerVarios(Produto* produtos, int* total_cadastrados, float limite_preco)
 {
-    int qtd_removidos = 0;
-    int codigos[max];
+    FILE* arq = fopen("dados.bin", "rb+");
 
-    printf("Quantos produtos você deseja remover? ");
-    scanf("%d", &qtd_removidos);
-
-    for (int i = 0; i < qtd_removidos; i++) {
-        printf("Código do %dº produto: ", i + 1);
-        scanf("%d", &codigos[i]);
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
     }
 
-    for (int i = 0; i < qtd_removidos; i++) {
-        remover(produtos, total_cadastrados, codigos[i]);
-        atualizarArquivo(produtos, *total_cadastrados);
+    Produto produto_atual;
+
+    for (int i = 0; i < (*total_cadastrados); i++) {
+        fseek(arq, i*sizeof(Produto), SEEK_SET);
+        fread(&produto_atual, sizeof(Produto), 1, arq);
+
+        if (produto_atual.preco < limite_preco) {
+            Produto vazio = {0, "", 0.0};
+            fseek(arq, i*sizeof(Produto), SEEK_SET);
+            fwrite(&vazio, sizeof(Produto), 1, arq);
+            (*total_cadastrados)--;
+        }
     }
+
+    fclose(arq);
+
+    atualizarArquivo(produtos, *total_cadastrados);
+
+    printf("Produtos removidos com sucesso!\n");
 }
 /////////////////////////////////////////////
 void buscarMultiplos(Produto* produtos, int total_cadastrados) {
