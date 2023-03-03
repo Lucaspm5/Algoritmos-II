@@ -375,7 +375,7 @@ void buscarMultiplos(Produto* produtos, int total_cadastrados) {
     float preco_maximo;
     printf("Informe o preco maximo dos produtos a serem buscados: ");
     scanf("%f", &preco_maximo);
-    
+
     bool encontrou = false;
     for (int i = 0; i < total_cadastrados; i++) {
         if (produtos[i].preco <= preco_maximo) {
@@ -419,6 +419,9 @@ void alterar(Produto *produtos, int* total_cadastrados, int codigo)
     scanf(" %[^\n]s", produtos[index].descricao);
     printf("Informe o novo preco do produto:\n");
     scanf("%f", &produtos[index].preco);
+
+    // Atualiza o arquivo
+    atualizarArquivo(produtos, *total_cadastrados);
 
     printf("Produto atualizado com sucesso:\n");
     printf("Codigo: %d\n", produtos[index].codigo);
