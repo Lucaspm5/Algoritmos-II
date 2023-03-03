@@ -74,7 +74,7 @@ int main()
         case 11:
             printf("Informe o codigo a alterar:\n");
             scanf("%d", &cod);
-            alterarProduto(produtos, total_cadastrados, cod);
+            alterarProduto(produtos, &total_cadastrados, cod);
             break;
         case 12:
             alterarProdutos(produtos, &total_cadastrados);
@@ -141,13 +141,20 @@ void menu()
 /////////////////////////////////////////////
 void salvarNodisco(Produto* produto, int* total_cadastrados)
 {
+    FILE *arq = fopen("dados.bin", "rb+");
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
     
-	FILE * arq;
-
-	arq = fopen("dados.bin", "ab");
-
+    fseek(arq, 0, SEEK_END);
     fwrite(produto, sizeof(Produto), 1, arq);
-	
+    
+    (*total_cadastrados)++;
+    fseek(arq, 0, SEEK_SET);
+    fwrite(total_cadastrados, sizeof(int), 1, arq);
+    
+    fclose(arq);
 }
 /////////////////////////////////////////////
 void lerDodisco(Produto* produtos, int* 
@@ -328,8 +335,13 @@ void ordenarCodigo(Produto* produtos, int* total_cadastrados)
 }
 /////////////////////////////////////////////
 void atualizarArquivo(Produto* produtos, int total_cadastrados) {
-    FILE* arq = fopen("dados.bin", "wb");
+    FILE* arq = fopen("dados.bin", "rb+");
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
 
+    fwrite(&total_cadastrados, sizeof(int), 1, arq);
     fwrite(produtos, sizeof(Produto), total_cadastrados, arq);
 
     fclose(arq);
