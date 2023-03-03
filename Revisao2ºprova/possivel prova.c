@@ -404,8 +404,14 @@ void alterarProduto(Produto *produtos, int* total_cadastrados, int codigo)
 
     Produto *p = &produtos[index];
 
+    int novo_codigo;
     printf("Informe o novo codigo do produto (atual: %d): ", p->codigo);
-    scanf("%d", &p->codigo);
+    scanf("%d", &novo_codigo);
+    if (novo_codigo == p->codigo) {
+        printf("Erro: o novo codigo deve ser diferente do codigo atual.\n");
+        return;
+    }
+    p->codigo = novo_codigo;
 
     printf("Informe a nova descricao do produto (atual: %s): ", p->descricao);
     scanf(" %[^\n]s", p->descricao);
