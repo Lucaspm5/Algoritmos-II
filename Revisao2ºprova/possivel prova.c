@@ -21,6 +21,7 @@ int main()
     int modulo = 1;
     int codigo;
     int cd;
+    int cod;
     float preco;
     lerDodisco(produtos, &total_cadastrados);
     
@@ -71,10 +72,12 @@ int main()
             buscarMultiplos(produtos, total_cadastrados);
             break;
         case 11:
-            alterar(produtos, total_cadastrados);
+            printf("Informe o codigo a alterar:\n");
+            scanf("%d", &cod);
+            alterarProduto(produtos, total_cadastrados, cod);
             break;
         case 12:
-            alterarVarios(produtos, total_cadastrados);
+            alterarProdutos(produtos, &total_cadastrados);
             break;
         case 13:
             break;
@@ -331,7 +334,7 @@ void atualizarArquivo(Produto* produtos, int total_cadastrados) {
 
     fclose(arq);
 }
-
+/////////////////////////////////////////////
 void remover(Produto* produtos, int* total_cadastrados, int codigo) 
 {    
     int index = auxiliar(produtos, codigo, total_cadastrados);
@@ -391,58 +394,43 @@ void buscarMultiplos(Produto* produtos, int total_cadastrados) {
     }
 }
 
-void alterar(Produto *produtos, int* total_cadastrados)
+void alterarProduto(Produto *produtos, int* total_cadastrados, int codigo) 
 {
-    int codigo;
-    int index;
-    
-    printf("Digite o codigo do produto a ser alterado: ");
-    scanf("%d", &codigo);
-    
-    index = auxiliar(produtos, codigo, total_cadastrados);
-    
+    int index = auxiliar(produtos, codigo, total_cadastrados);
     if (index == -1) {
         printf("Produto nao encontrado.\n");
         return;
     }
 
-    printf("Digite a nova descricao: ");
-    scanf(" %[^\n]s", produtos[index].descricao);
-    
-    printf("Digite o novo preco: ");
-    scanf("%f", &produtos[index].preco);
-    
-    printf("Produto alterado com sucesso.\n");
+    Produto *p = &produtos[index];
+
+    printf("Informe o novo codigo do produto (atual: %d): ", p->codigo);
+    scanf("%d", &p->codigo);
+
+    printf("Informe a nova descricao do produto (atual: %s): ", p->descricao);
+    scanf(" %[^\n]s", p->descricao);
+
+    printf("Informe o novo preco do produto (atual: %.2f): ", p->preco);
+    scanf("%f", &p->preco);
+
+    // Salva no disco as alterações feitas
+    salvarNodisco(produtos, *total_cadastrados);
 }
 
-void alterarVarios(Produto *produtos, int* total_cadastrados)
+void alterarProdutos(Produto *produtos, int *total_cadastrados)
 {
-    int n;
-    int i;
-    
-    printf("Digite o numero de produtos a serem alterados: ");
-    scanf("%d", &n);
-    
-    for (i = 0; i < n; i++) {
-        int codigo;
-        int index;
-        
-        printf("Digite o codigo do produto a ser alterado: ");
-        scanf("%d", &codigo);
-        
-        index = auxiliar(produtos, codigo, total_cadastrados);
-        
-        if (index == -1) {
-            printf("Produto nao encontrado.\n");
-            continue;
+    int codigo;
+    printf("Informe o codigo dos produtos que deseja alterar (digite um numero negativo para encerrar):\n");
+
+    while (1) {
+        printf("Codigo do produto: ");
+        if (scanf("%d", &codigo) != 1 || codigo < 0) {
+            break;
         }
 
-        printf("Digite a nova descricao: ");
-        scanf(" %[^\n]s", produtos[index].descricao);
-        
-        printf("Digite o novo preco: ");
-        scanf("%f", &produtos[index].preco);
-        
-        printf("Produto alterado com sucesso.\n");
+        alterarProduto(produtos, total_cadastrados, codigo);
     }
+
+    printf("Alteracoes salvas com sucesso!\n");
+    salvarNodisco(produtos, *total_cadastrados);
 }
