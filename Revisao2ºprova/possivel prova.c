@@ -138,13 +138,16 @@ void menu()
 /////////////////////////////////////////////
 void salvarNodisco(Produto* produto, int* total_cadastrados)
 {
-    
-	FILE * arq;
+    FILE* arq = fopen("dados.bin", "ab");
 
-	arq = fopen("dados.bin", "ab");
+    if (arq == NULL) { // verificar se o arquivo foi aberto corretamente
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
 
     fwrite(produto, sizeof(Produto), 1, arq);
-	
+
+    fclose(arq);
 }
 /////////////////////////////////////////////
 void lerDodisco(Produto* produtos, int* 
