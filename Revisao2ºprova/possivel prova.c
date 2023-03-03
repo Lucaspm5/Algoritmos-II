@@ -132,17 +132,40 @@ void menu()
 {
     printf("1 - Cadastrar\n2 - Visualizar\n3 - Visualizar um registro\n4 - Ordenar por preço\n5 - Ordenar por codigo\n6 - Ordenar por caracter\n7 - Remover um cadastro\n8 - Remover varios\n");
     printf("9 - Buscar por codigo\n10 - Buscar variosn\n13 - Alterar\n12 - Finalizar\n");
-}   
+}  
 /////////////////////////////////////////////
 void salvarNodisco(Produto* produto, int* total_cadastrados)
 {
-    
-	FILE * arq;
+    FILE * arq = fopen("dados.bin", "rb+"); // abre o arquivo para leitura e escrita
+    if (arq == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
 
-	arq = fopen("dados.bin", "ab");
+    // busca o produto a ser atualizado no arquivo
+    int i;
+    for (i = 0; i < *total_cadastrados; i++) {
+        if (produto->codigo == produto[i].codigo) {
+            break;
+        }
+    }
 
-    fwrite(produto, sizeof(Produto), 1, arq);
-	
+    if (i < *total_cadastrados) { // se o produto foi encontrado
+        // posiciona o ponteiro do arquivo no início do produto a ser atualizado
+        fseek(arq, i*sizeof(Produto), SEEK_SET);
+
+        // sobrescreve o produto com os novos dados
+        fwrite(produto, sizeof(Produto), 1, arq);
+        printf("Produto com o código %d alterado com sucesso!\n", produto->codigo);
+    } else {
+        // adiciona o produto no final do arquivo
+        fseek(arq, 0, SEEK_END);
+        fwrite(produto, sizeof(Produto), 1, arq);
+        (*total_cadastrados)++;
+        printf("Produto adicionado com sucesso!\n");
+    }
+
+    fclose(arq);
 }
 /////////////////////////////////////////////
 void lerDodisco(Produto* produtos, int* 
@@ -389,7 +412,8 @@ void buscarMultiplos(Produto* produtos, int total_cadastrados) {
     }
 }
 ////////////////////////////////////////////
-void alterar(Produto *produtos, int *total_cadastrados, int codigo, char *nova_descricao, float novo_preco) {
+void alterar(Produto *produtos, int *total_cadastrados, int codigo, char *nova_descricao, float novo_preco) 
+{
     int i;
     bool encontrado = false;
     for (i = 0; i < *total_cadastrados; i++) {
@@ -397,6 +421,7 @@ void alterar(Produto *produtos, int *total_cadastrados, int codigo, char *nova_d
             strcpy(produtos[i].descricao, nova_descricao);
             produtos[i].preco = novo_preco;
             encontrado = true;
+            break; // para interromper o loop após encontrar o produto
         }
     }
     if (encontrado) {
@@ -405,8 +430,7 @@ void alterar(Produto *produtos, int *total_cadastrados, int codigo, char *nova_d
     } else {
         printf("Produto com o código %d não encontrado.\n", codigo);
     }
-}
-////////////////////////////////////////////
+}//////////////////////////////////////
 void alterarUm(Produto *produtos, int *total_cadastrados) {
     int codigo;
     char nova_descricao[30];
@@ -423,5 +447,5 @@ void alterarUm(Produto *produtos, int *total_cadastrados) {
     fgets(nova_descricao, 30, stdin);
     printf("Informe o novo preço: ");
     scanf("%f", &novo_preco);
-    alterar(produtos, total_cadastrados, codigo, nova_descricao, novo_preco);
+    alterar(produtos, total_cadastrados, index, nova_descricao, novo_preco);
 }
