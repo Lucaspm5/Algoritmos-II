@@ -97,3 +97,37 @@ void summarize_text(char* input_path, char* output_path, int summary_size, char*
             strcat(summary, ". ");
             summary_length += sentence_length;
         }
+   
+    fprintf(output_file, "%s", summary);
+
+    for (i = 0; i < num_stopwords; i++) {
+        free(stopwords[i]);
+    }
+        
+    free(stopwords);
+    free(text);
+    free(summary);
+        
+    for (i = 0; i < num_sentences; i++) {
+        free(sentences[i]);
+    }
+    free(sentences);
+    fclose(input_file);
+    fclose(output_file);
+    fclose(stopwords_file);
+}
+
+int main(int argc, char* argv[]) 
+{
+    if (argc < 5) 
+    {
+        printf("Usage: summarize_text input_path output_path summary_size stopwords_path\n");
+        return 1;
+    }
+    char* input_path = argv[1];
+    char* output_path = argv[2];
+    int summary_size = atoi(argv[3]);
+    char* stopwords_path = argv[4];
+    summarize_text(input_path, output_path, summary_size, stopwords_path);
+    return 0;
+}
