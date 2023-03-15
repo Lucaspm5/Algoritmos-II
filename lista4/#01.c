@@ -55,7 +55,7 @@ int main(void)
         printf("Aluno - %d\n", i + 1);
         printf("Informe o nome: ");
         fgets(c[i].nome, 15, stdin);
-        c[i].nome[strcspn(c[i].nome, "\n")] = '\0'; // remover o caractere '\n' da string
+        c[i].nome[strcspn(c[i].nome, "\n")] = '\0';
         printf("Informe a altura, peso e IRA: ");
         if (scanf("%f %f %f", &c[i].altura, &c[i].peso, &c[i].Ira) != 3)
         {
