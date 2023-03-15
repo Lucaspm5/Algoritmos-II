@@ -1,26 +1,31 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-const int SIZE = 10;
-
-int valor[SIZE] = {0};
-int elemento[SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-
-int main() {
-    for (int i = 0; i < SIZE; i++){
-        if (scanf("%d", &valor[i]) != 1){
-            printf("Valor invalido!\n");
-            return 1;
+int main()
+{
+    int n, i, j, k, digito, t;
+    char str[101], resposta[101];
+    while (scanf("%i %s", &n, str) != EOF)
+    {
+        t = strlen(str);
+        for (i = 0, j = 0; i < t; i++)
+        {
+            digito = str[i] - '0';
+            if (n != digito)
+            resposta[j++] = str[i];
+        }
+        for (i = 0; i < j; i++)
+        if (resposta[i] != '0')
+        break;
+        if (j == i)
+        printf("0\n");
+        else
+        {
+            for (k = i; k < j; k++)
+            printf("%c", resposta[k]);
+            printf("\n");
         }
     }
-
-    printf("Elemento\t\tValor\t\tHistograma\n");
-    for (int i = 0; i < SIZE; i++) {
-        printf("%-15d\t%-15d\t", elemento[i], valor[i]);
-        for (int j = 0; j < valor[i]; j++) {
-            printf("*");
-        }
-        printf("\n");
-    }
-
     return 0;
 }
