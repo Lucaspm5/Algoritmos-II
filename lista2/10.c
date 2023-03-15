@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-char jogo [] = "ABCDEFGHIJKLMNOP",quartas[8], semi[4], final[2], campeao[1];
+char jogo[] = "ABCDEFGHIJKLMNOP",quartas[8], semi[4], final[2], campeao[1];
 
 void partidas(int jogos, char *equipes,char *vencedores)
 {
