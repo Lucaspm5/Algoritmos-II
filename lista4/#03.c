@@ -1,17 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct
 {
     int naipe, valor;
-}carta;
+} carta;
 
-carta deck[52];
-
-char naipe[][10] = {"Paus", "Ouros", "Copas", "Espadas"};
-char numero[][10] = {"As", "Dois", "Tres", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez", "Valete", "Dama", "Rei"};
-
-void preenche()
+void preenche(carta *deck)
 {
     int i = 0, j = 0, conta = 0;
 
@@ -25,7 +21,7 @@ void preenche()
     }
 }
 
-void embaralha()
+void embaralha(carta *deck)
 {
     int aux1 = 0, aux2 = 0, val = 0, i = 0;
 
@@ -43,9 +39,11 @@ void embaralha()
     }
 }
 
-void imprime()
+void imprime(carta *deck)
 {
     int i = 0, pos = 0, posN = 0;
+    char naipe[][10] = {"Paus", "Ouros", "Copas", "Espadas"};
+    char numero[][10] = {"As", "Dois", "Tres", "Quatro", "Cinco", "Seis", "Sete", "Oito", "Nove", "Dez", "Valete", "Dama", "Rei", "Joker"};
 
     for (i = 0; i < 52; i++)
     {
@@ -60,20 +58,22 @@ void imprime()
 int main(void)
 {
     int opc;
+    carta deck[52];
 
     srand(time(NULL));
-    preenche();
+    preenche(deck);
 
     scanf("%d", &opc);
 
     if (opc == 1)
     {
-        imprime();
+        imprime(deck);
     }
     else if (opc == 0)
     {
-        embaralha();
-        imprime();
+        embaralha(deck);
+        imprime(deck);
     }
-}
 
+    return 0;
+}
