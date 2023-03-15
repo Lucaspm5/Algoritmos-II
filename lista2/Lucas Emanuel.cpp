@@ -1,26 +1,28 @@
 #include <stdio.h>
 
-const int SIZE = 10;
+char jogo [] = "ABCDEFGHIJKLMNOP",quartas[8], semi[4], final[2], campeao[1];
 
-int valor[SIZE] = {0};
-int elemento[SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-
-int main() {
-    for (int i = 0; i < SIZE; i++){
-        if (scanf("%d", &valor[i]) != 1){
-            printf("Valor invalido!\n");
-            return 1;
+void partidas(int jogos, char *equipes,char *vencedores)
+{
+    int time1,time2, aux;
+    for(int aux = 0;aux<jogos;aux++)
+    {
+        scanf("%d%d",&time1,&time2);
+        if(time1>time2)
+        {
+            vencedores[aux] = equipes[aux*2];
+        }else{
+            vencedores[aux] = equipes[aux*2+1];
         }
     }
+}
+int main(void)
+{
+    partidas(8,jogo,quartas);
+    partidas(4,quartas,semi);
+    partidas(2,semi,final);
+    partidas(1,final,campeao);
 
-    printf("Elemento\t\tValor\t\tHistograma\n");
-    for (int i = 0; i < SIZE; i++) {
-        printf("%-15d\t%-15d\t", elemento[i], valor[i]);
-        for (int j = 0; j < valor[i]; j++) {
-            printf("*");
-        }
-        printf("\n");
-    }
-
+    printf("%c\n",campeao[0]);
     return 0;
 }
