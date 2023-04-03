@@ -1,29 +1,42 @@
 #include <stdio.h>
 
-double sum(double (*matrix)[12]) 
-{
-    double s = 0.0;
-    for (int i = 1; i <= 11; i++){
-        for (int j = 0; j < i; j++)
-            s += matrix[i][j];
-    }
-    return s;
-}
+double calculaArea(char operacao, double (*M)[12]);
 
-int main(int argc, char **argv) 
-{
-    double M[12][12];
-    char T[2];
+int main(int argc, char **argv){
 
-    for (int i = 0; i <= 11; i++){
-        for (int j = 0; j <= 11; j++)
-            scanf("%lf", &M[i][j]);
+    int i, j;
+    double matriz[12][12], ret;
+    char op;
+    scanf("%c",&op);
+    for(i=0; i<12; i++){
+        for(j=0; j<12; j++){
+        scanf("%lf",&matriz[i][j]);
+        }
     }
-    scanf("%s", T);
-    if (T[0] == 'S')
-        printf("%.1lf\n", sum(M));
-    else if (T[0] == 'M')
-        printf("%.1lf\n", sum(M) / 66.0);
+
+ret = calculaArea(op,matriz);
+printf("%.1lf\n",ret);
 
     return 0;
+}
+
+double calculaArea(char operacao, double (*M)[12]){
+    int i, j;
+    double soma = 0.0, cont = 0.0;
+    for(i=0; i<12; i++){
+        for(j=0; j<12; j++){
+        if(j<i){
+            soma+=M[i][j];
+            cont++;
+        }
+        }
+    }
+
+    if(operacao=='S'){
+        return soma;
+    }
+    if(operacao=='M'){
+        return soma / cont;
+    }
+
 }
