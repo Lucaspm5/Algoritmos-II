@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void insertion_sort(char** v, int n)
+void insercao(char** v, int n)
 {
     for (int i = 1; i < n; i++) {
         char* key = v[i];
@@ -37,7 +37,7 @@ int main(int argc, char **argv)
             aux = strtok(NULL, " \n");
         }
 
-        insertion_sort(v, count);
+        insercao(v, count);
 
         for (int i = 0; i < count; i++)
         {
