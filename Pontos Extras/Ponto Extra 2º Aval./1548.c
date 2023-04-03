@@ -14,7 +14,7 @@ void insercao(int* v, int n) {
   }
 }
 
-int main() {
+int main(int argc, char** argv) {
   int T, M, i, nao_precisou;
   int notas[1005];
   int fila_original[1005];
