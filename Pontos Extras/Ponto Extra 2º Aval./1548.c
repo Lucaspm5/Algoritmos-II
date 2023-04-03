@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void insertion_sort(int* v, int n) {
+void insercao(int* v, int n) {
   int i, j, key;
   for (i = 1; i < n; i++) {
     key = v[i];
@@ -29,7 +29,7 @@ int main() {
       fila_original[i] = notas[i];
     }
 
-    insertion_sort(notas, M);
+    insercao(notas, M);
 
     nao_precisou = 0;
     for (i = 0; i < M; i++) {
