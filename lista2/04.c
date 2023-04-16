@@ -1,41 +1,35 @@
 #include <stdio.h>
 
-int removeDuplicates(int arr[], int Size);
+#define size 10
 
 int main() {
-    int arr[10], i, Size = 10;
+    int sequencia[size];
+    int diferentes[size] = {0};
+    int i, j, contDiferentes = 0;
 
-    printf("Digite 10 números inteiros: ");
-    for (i = 0; i < Size; i++) {
-        while (scanf("%d", &arr[i]) != 1) {
-            printf("Entrada inválida. Digite um número inteiro: ");
-            while (getchar() != '\n');
+    printf("Digite a sequencia de numeros (10 numeros separados por espaco):\n");
+    for(i = 0; i < size; i++) {
+        scanf("%d", &sequencia[i]);
+    }
+
+    for(i = 0; i < size; i++) {
+        int repetido = 0;
+        for(j = i + 1; j < size; j++) {
+            if(sequencia[i] == sequencia[j]) {
+                repetido = 1;
+                break;
+            }
+        }
+        if(!repetido) {
+            diferentes[contDiferentes++] = sequencia[i];
         }
     }
 
-    Size = removeDuplicates(arr, Size);
-
-    printf("Os números únicos são: ");
-    for (i = 0; i < Size; i++) {
-        printf("%d ", arr[i]);
+    printf("Numeros diferentes: ");
+    for(i = 0; i < contDiferentes; i++) {
+        printf("%d ", diferentes[i]);
     }
     printf("\n");
 
     return 0;
-}
-
-int removeDuplicates(int arr[], int Size) {
-    int i, j, k;
-    for (i = 0; i < Size; i++) {
-        for (j = i + 1; j < Size; j++) {
-            if (arr[i] == arr[j]) {
-                for (k = j; k < Size; k++) {
-                    arr[k] = arr[k + 1];
-                }
-                Size--;
-                j--;
-            }
-        }
-    }
-    return Size;
 }
