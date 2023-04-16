@@ -16,38 +16,39 @@ int rollDice(void)
 int main()
 {
     int var, sup, win;
+
     srand(time(NULL));
+
     sup = rollDice();
     switch(sup)
     {
         case 7:
         case 11:
-        var = 1;
-        break;
+            var = 1;
+            break;
         case 2:
         case 3:
         case 12:
-        var = 2;
-        break;
+            var = 2;
+            break;
         default:
-        var = 0;
-        win = sup;
-        printf("O ponto e %d\n", win);
-        break;
+            var = 0;
+            win = sup;
+            printf("O ponto e %d\n", win);
+            break;
     }
-    while (var == 0)
+    while(var == 0)
     {
         sup = rollDice();
         if(sup == win)
-        var = 1;
+            var = 1;
         else
-        if(sup == 7)
-        var = 2;
+            if(sup == 7)
+            var = 2;
     }
-    if(var == 1)
+    if(var)
         printf("Jogador vence\n") ;
     else
         printf("Jogador perde\n");
     return 0;
 }
- 
