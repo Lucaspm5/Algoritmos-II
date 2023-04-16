@@ -11,9 +11,8 @@ int main()
 
     printf("Elemento\tValor\n");
     for (i = 0; i < 10; i++) {
-        printf("%d\t%d\n", *(p_elementos + i), *(p_valores + i));
+        printf("%d\t\t%d\n", *(p_elementos + i), *(p_valores + i));
     }
 
     return 0;
 }
-
