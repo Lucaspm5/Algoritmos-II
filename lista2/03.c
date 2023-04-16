@@ -1,31 +1,33 @@
-#include<stdio.h>
-#include<string.h>
+#include <stdio.h>
+#include <string.h>
 
-#define MAX_LENGTH 20
+#define size 20
 
 int main() {
-    char palavra[MAX_LENGTH+1];
-    int index;
-    int troca[MAX_LENGTH] = {0};
-
+    char palavra[size];
+    int cont = 0;
+    int troca[size] = {0};
+    int posicao = 0;
     printf("Informe uma palavra: ");
-    fgets(palavra,MAX_LENGTH,stdin);
+    fgets(palavra,size,stdin);
 
-    for (index = 0; index < strlen(palavra); index++) {
-        if (palavra[index] == 'r') {
-            palavra[index] = 'l';
-            troca[index] = index;
+    for(int i = 0; i < strlen(palavra); i++)
+    {
+        if(palavra[i] == 'r'){
+            palavra[i] = 'l';
+            troca[cont++] = i;
+        }else if(palavra[i] == 'R'){
+            palavra[i] = 'L';
+            troca[cont++] = i;
         }
     }
 
     printf("Cebolinha falaria: %s\n", palavra);
     printf("Houve troca nos caracteres: ");
 
-    for (index = 0; index < strlen(palavra); index++) {
-        if (troca[index] != 0) {
-            printf("%d ", troca[index]);
-        }   
+    for (int i = 0; i < cont; i++){
+            printf("%d ", troca[i]);
     }
-    
+
     return 0;
 }
