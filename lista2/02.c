@@ -3,27 +3,21 @@
 #include <ctype.h>
 
 int main() {
-    char entrada[100];
-    char espacos[199];
-    int i, j, cont;
+    char frase[100];
+    int i = 0;
 
-    for (i = 0; i < 100 && (entrada[i] = getchar()) != '\n'; i++) {}
-    entrada[i] = '\0';
-    cont = i;
+    fgets(frase, 100, stdin);
 
-    for (i = 0, j = 0; i < cont; i++) {
-        espacos[j++] = entrada[i];
-        if (i < cont - 1) {
-            espacos[j++] = ' ';
-        }
+    for(int i = 0;i < strlen(frase);i++)
+    {
+        frase[i] = toupper(frase[i]);
+
+        putchar(frase[i]);
+
+        if(i < strlen(frase))
+            putchar(' ');
+
     }
-    espacos[j] = '\0';
-
-    for (i = 0; espacos[i]; i++) {
-        espacos[i] = toupper(espacos[i]);
-    }
-
-    printf("%s", espacos);
 
     return 0;
 }
