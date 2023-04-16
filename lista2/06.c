@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#define MATRIX_SIZE 2
+#define size 2
 
-typedef int matrix[MATRIX_SIZE][MATRIX_SIZE];
+typedef int matrix[size][size];
 
 int main(void){
     matrix x = {{2, 2}, {2, 2}};
@@ -11,16 +11,16 @@ int main(void){
 
     int i, j, k;
 
-    for (i = 0; i < MATRIX_SIZE; i++){
-        for (j = 0; j < MATRIX_SIZE; j++){
-            for (k = 0; k < MATRIX_SIZE; k++){
+    for (i = 0; i < size; i++){
+        for (j = 0; j < size; j++){
+            for (k = 0; k < size; k++){
                 resultado[i][j] += x[i][k] * y[k][j];
             }
         }
     }
 
-    for (i = 0; i < MATRIX_SIZE; i++){
-        for (j = 0; j < MATRIX_SIZE; j++){
+    for (i = 0; i < size; i++){
+        for (j = 0; j < size; j++){
             printf("%d ", resultado[i][j]);
         }
         printf("\n");
