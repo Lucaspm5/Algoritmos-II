@@ -3,8 +3,8 @@
 #include <time.h>
 
 struct card{
-int face;
-int suit;
+    int face;
+    int suit;
 };
 
 typedef struct card Card;
